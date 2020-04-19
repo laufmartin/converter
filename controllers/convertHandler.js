@@ -39,6 +39,7 @@ function ConvertHandler() {
   };
   
   this.getReturnUnit = function(initUnit) {
+    if(initUnit == "invalid/unknown"){return null;}
     var result = units[this.getUnit(initUnit)];
     
     return result;

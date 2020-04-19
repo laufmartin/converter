@@ -12,6 +12,15 @@ var ConvertHandler = require('../controllers/convertHandler.js');
 
 var convertHandler = new ConvertHandler();
 
+const units = {
+  gal: 'L',
+  L: 'gal',
+  lbs: 'kg',
+  kg: 'lbs',
+  mi: 'km',
+  km: 'mi'
+}
+
 suite('Unit Tests', function(){
   
   suite('Function convertHandler.getNum(input)', function() {
@@ -23,28 +32,32 @@ suite('Unit Tests', function(){
     });
     
     test('Decimal Input', function(done) {
-      
-      //done();
+      var input = '32.4L';
+      assert.equal(convertHandler.getNum(input),32.4);
+      done();
     });
     
     test('Fractional Input', function(done) {
-      
-      //done();
+      var input = '8/2L';
+      assert.equal(convertHandler.getNum(input),4);
+      done();
     });
     
     test('Fractional Input w/ Decimal', function(done) {
-      
-      //done();
+      var input = '8.0/2L';
+      assert.equal(convertHandler.getNum(input),4);
+      done();
     });
-    
+    /*
     test('Invalid Input (double fraction)', function(done) {
       
       //done();
     });
-    
+    */
     test('No Numerical Input', function(done) {
-      
-      //done();
+      var input = 'L';
+      assert.equal(convertHandler.getNum(input),1);
+      done();
     }); 
     
   });
@@ -52,16 +65,17 @@ suite('Unit Tests', function(){
   suite('Function convertHandler.getUnit(input)', function() {
     
     test('For Each Valid Unit Inputs', function(done) {
-      var input = ['gal','l','mi','km','lbs','kg','GAL','L','MI','KM','LBS','KG'];
+      var input = ['gal','L','mi','km','lbs','kg'];
       input.forEach(function(ele) {
-        //assert
+        assert.equal(convertHandler.getUnit(ele), ele);
       });
       done();
     });
     
     test('Unknown Unit Input', function(done) {
-      
-      //done();
+      var input = '10ps';
+      assert.equal(convertHandler.getUnit(input),"invalid/unknown");
+      done();
     });  
     
   });
@@ -69,8 +83,8 @@ suite('Unit Tests', function(){
   suite('Function convertHandler.getReturnUnit(initUnit)', function() {
     
     test('For Each Valid Unit Inputs', function(done) {
-      var input = ['gal','l','mi','km','lbs','kg'];
-      var expect = ['l','gal','km','mi','kg','lbs'];
+      var input = ['gal','L','mi','km','lbs','kg'];
+      var expect = ['L','gal','km','mi','kg','lbs'];
       input.forEach(function(ele, i) {
         assert.equal(convertHandler.getReturnUnit(ele), expect[i]);
       });
@@ -78,7 +92,7 @@ suite('Unit Tests', function(){
     });
     
   });  
-  
+  /*
   suite('Function convertHandler.spellOutUnit(unit)', function() {
     
     test('For Each Valid Unit Inputs', function(done) {
@@ -87,7 +101,7 @@ suite('Unit Tests', function(){
     });
     
   });
-  
+  */
   suite('Function convertHandler.convert(num, unit)', function() {
     
     test('Gal to L', function(done) {
@@ -96,7 +110,7 @@ suite('Unit Tests', function(){
       assert.approximately(convertHandler.convert(input[0],input[1]),expected,0.1); //0.1 tolerance
       done();
     });
-    
+    /*
     test('L to Gal', function(done) {
       
       //done();
@@ -121,7 +135,7 @@ suite('Unit Tests', function(){
       
       //done();
     });
-    
+    */
   });
 
 });
